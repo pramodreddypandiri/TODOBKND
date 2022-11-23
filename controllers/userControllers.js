@@ -1,7 +1,15 @@
 // business LOGIC
-
-const home = (req, res) => {
+const User = require("../models/userModels")
+exports.home = (req, res) => {
     res.send("Hello from Pramod Reddy")
 }
 
-module.exports =  { home }
+exports.createUser = (req, res) => {
+    try{
+        const { name, email} = req.body
+        //
+    }
+    catch(error){
+
+    }
+}
