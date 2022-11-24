@@ -8,7 +8,7 @@ app.use(express.json)
 app.use(express.urlencoded({ extended: true}))
 // routes
 connectToDB()
-app.get('/', userRoutes)
+app.use('/', userRoutes)
 
 
 module.exports = app

@@ -1,6 +1,7 @@
 // business LOGIC
 const User = require("../models/userModels")
 exports.home = (req, res) => {
+    console.log("Inside home");
     res.send("Hello from Pramod Reddy")
 }
 
