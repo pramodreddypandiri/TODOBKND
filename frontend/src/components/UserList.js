@@ -1,6 +1,49 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+export const UserList = () => {
+  const [userData, setUserData] = useState(null)
+  //const [userData, setUserData] = useEffect()
+  const fetchUserData = async() => {
+    const resp = await axios.get("/getUsers");
+    //console.log(resp);
+    //console.log(resp.data.users);
 
-const UserList = () => {
+    // if no user are there , do not set the values
+    if(resp.data.users.length > 0) {
+      setUserData(resp.data.users)
+    }
+  }
+  
+   useEffect( () => {
+    fetchUserData()
+    //console.log("user data is" , userData);
+   }, [userData])
+   //EDIT
+   const handleEditUser = async (user) => {
+    const userName = prompt("Enter your new Name")
+    const userEmail = prompt("Enter your new Email")
+
+    if(!userName || !userEmail) {
+      alert("Please Enter Name and Email both")
+    }
+    else{
+      const resp = await axios.put(`/editUser/${user._id}`, {
+        
+        name: userName,
+        email: userEmail
+
+
+      })
+      console.log(resp);
+    }
+
+
+  }
+  //DELETE
+  const handleDelete = async (user) => {
+    const delRes = await axios.delete(`/deleteUser/${user._id}`)
+    console.log(delRes);
+  }
   return (
     <div>
         <section className="text-gray-600 body-font">
@@ -29,17 +72,31 @@ const UserList = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="px-4 py-3">One</td>
-                <td className="px-4 py-3">Two</td>
-                <td className="px-4 py-3">
-                  <button className="hover:text-green-500">Edit</button>
-                </td>
-                <td className="px-4 py-3 text-lg text-gray-900">
-                  <button className="hover:text-red-500">Delete</button>
-                </td>
-              </tr>
-            </tbody>
+            {userData &&
+                userData.map((user) => (
+                  <tr>
+                    <td className="px-4 py-3">{user.name}</td>
+                    <td className="px-4 py-3">{user.email}</td>
+                    <td className="px-4 py-3">
+                      <button
+                        className="hover:text-green-500"
+                        onClick={()=> handleEditUser(user)}
+                      >
+                        Edit
+                      </button>
+                    </td>
+                    <td className="px-4 py-3 text-lg text-gray-900">
+                      <button
+                        className="hover:text-red-500"
+                        onClick={() => {handleDelete(user)}}
+                        
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                </tbody>
           </table>
         </div>
       </div>
@@ -50,4 +107,3 @@ const UserList = () => {
   )
 }
 
-export default UserList

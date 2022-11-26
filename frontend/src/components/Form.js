@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-const Form = () => {
+export const Form = () => {
     // to store value from front-end
     const [userName, setUserName] = useState("")
     const [userEmail, setUserEmail] = useState("")
-    console.log(userName, userEmail);
+    //console.log(userName, userEmail);
 
     // function to send data
     const submitData = async () => {
@@ -92,4 +92,3 @@ const Form = () => {
   )
 }
 
-export default Form
